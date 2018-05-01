@@ -12,4 +12,5 @@ public interface CommentService {
 
     void deleteById(Long id);
 
+    void update(CommentEntity commentEntity);
 }

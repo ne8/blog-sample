@@ -19,7 +19,7 @@ public class CommentDTO {
     private String title;
 
     @NotNull
-    @Size(min = 100)
+    @Size(min = 6, max = 1000)
     @ApiModelProperty(required = true)
     private String textContent;
 

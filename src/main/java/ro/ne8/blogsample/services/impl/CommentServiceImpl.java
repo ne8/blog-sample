@@ -43,4 +43,14 @@ public class CommentServiceImpl implements CommentService {
     public void deleteById(final Long id) {
         this.commentRepository.deleteById(id);
     }
+
+    @Override
+    public void update(final CommentEntity commentEntity) {
+        final UserDetails userDetails = this.principalSupplier.getSpringContextUserDetails();
+        final UserEntity userEntity = this.userService.fetchCurrentUserEntity(userDetails.getUsername());
+        commentEntity.setUserEntity(userEntity);
+        final CommentEntity commentEntityToBeUpdated = this.commentRepository.findOne(commentEntity.getId());
+        commentEntityToBeUpdated.setTextContent(commentEntity.getTextContent());
+        this.commentRepository.save(commentEntityToBeUpdated);
+    }
 }

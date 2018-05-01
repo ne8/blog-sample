@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 @Api(value = "Comment endpoint", description = "Comment endpoint for CRUD operations on Comment entity",
         tags = {"Comment"})
 @RequestMapping(value = "/comments/", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("#oauth2.hasScope('write') and hasRole('USER')")
 public class CommentController {
     private static final String BY_ID = "{id}";
 
@@ -32,23 +33,28 @@ public class CommentController {
     private CommentFacade commentFacade;
 
     @ApiOperation(value = "Save comment to database", code = 201)
-    @PreAuthorize("#oauth2.hasScope('read') and #oauth2.hasScope('write') and hasRole('USER')")
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> saveUser(@Valid @RequestBody final CommentDTO commentDTO, final UriComponentsBuilder ucBuilder) {
+    public ResponseEntity<Void> saveComment(@Valid @RequestBody final CommentDTO commentDTO, final UriComponentsBuilder ucBuilder) {
         LOGGER.debug("Creating new comment");
         this.commentFacade.save(commentDTO);
         final HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(ucBuilder.path("/comments/{id}").buildAndExpand(commentDTO.getId()).toUri());
         return new ResponseEntity<>(httpHeaders, HttpStatus.CREATED);
     }
-    //TODO: method to update
+
+    @ApiOperation(value = "Update comment within the database")
+    @RequestMapping(method = RequestMethod.PUT)
+    public ResponseEntity<Void> updateComment(@Valid @RequestBody final CommentDTO commentDTO) {
+        LOGGER.debug("Updating comment: " + commentDTO.getId());
+        this.commentFacade.update(commentDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 
-    @ApiOperation(value = "Delete comment from database", code = 200)
-    @PreAuthorize("#oauth2.hasScope('read') and #oauth2.hasScope('write') and hasRole('USER')")
+    @ApiOperation(value = "Delete comment from database")
     @RequestMapping(value = BY_ID, method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@NotNull @PathVariable("id") final Long id) {
-        LOGGER.info("trying to remove comment with id: " + id);
+        LOGGER.debug("Removing comment with id: " + id);
         this.commentFacade.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

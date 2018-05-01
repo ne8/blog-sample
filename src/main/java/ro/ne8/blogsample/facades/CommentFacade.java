@@ -10,4 +10,6 @@ public interface CommentFacade {
     List<CommentDTO> findAllForPost(Long postId);
 
     void delete(Long id);
+
+    void update(CommentDTO commentDTO);
 }
