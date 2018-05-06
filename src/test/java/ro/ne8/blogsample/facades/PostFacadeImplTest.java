@@ -21,7 +21,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-public class PostFacadeImpl extends ParentTest {
+public class PostFacadeImplTest extends ParentTest {
 
     private static final String TEST_SLUG = "test-slug";
     private static final String TEST_TEXT_CONTENT = "test-text-content";
