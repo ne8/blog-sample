@@ -13,6 +13,10 @@ public class CommentDTO {
     @ApiModelProperty(hidden = true)
     private Long id;
 
+    @ApiModelProperty(hidden = true)
+    @NotNull
+    private Long postId;
+
     @NotNull
     @Size(min = 6, max = 600)
     @ApiModelProperty(required = true)
@@ -67,5 +71,13 @@ public class CommentDTO {
 
     public void setUpdateTime(final Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Long getPostId() {
+        return this.postId;
+    }
+
+    public void setPostId(final Long postId) {
+        this.postId = postId;
     }
 }

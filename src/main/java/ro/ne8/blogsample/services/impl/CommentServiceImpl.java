@@ -11,6 +11,7 @@ import ro.ne8.blogsample.services.PrincipalSupplier;
 import ro.ne8.blogsample.services.UserService;
 
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,11 +27,13 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private PrincipalSupplier principalSupplier;
 
+
     @Override
     public void save(final CommentEntity commentEntity) {
         final UserDetails userDetails = this.principalSupplier.getSpringContextUserDetails();
         final UserEntity userEntity = this.userService.fetchCurrentUserEntity(userDetails.getUsername());
         commentEntity.setUserEntity(userEntity);
+        commentEntity.setCreationTime(new Date());
         this.commentRepository.save(commentEntity);
     }
 
@@ -46,11 +49,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void update(final CommentEntity commentEntity) {
-        final UserDetails userDetails = this.principalSupplier.getSpringContextUserDetails();
-        final UserEntity userEntity = this.userService.fetchCurrentUserEntity(userDetails.getUsername());
-        commentEntity.setUserEntity(userEntity);
         final CommentEntity commentEntityToBeUpdated = this.commentRepository.findOne(commentEntity.getId());
         commentEntityToBeUpdated.setTextContent(commentEntity.getTextContent());
+        commentEntityToBeUpdated.setUpdateTime(new Date());
         this.commentRepository.save(commentEntityToBeUpdated);
     }
 }

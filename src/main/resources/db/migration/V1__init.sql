@@ -11,17 +11,19 @@ CREATE TABLE IF NOT EXISTS blog.posts (
   slug          VARCHAR(600) NOT NULL,
   text_content  TEXT         NOT NULL,
   creation_date TIMESTAMP    NOT NULL,
-  update_date   TIMESTAMP    NOT NULL,
+  update_date   TIMESTAMP,
   user_id       BIGINT       NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS blog.comments (
-  id           BIGINT PRIMARY KEY,
-  title        VARCHAR(600) NOT NULL,
-  text_content TEXT         NOT NULL,
-  user_id      BIGINT       NOT NULL,
+  id            BIGINT PRIMARY KEY,
+  title         VARCHAR(600) NOT NULL,
+  text_content  TEXT         NOT NULL,
+  user_id       BIGINT       NOT NULL,
   --   TODO: not null CONSTRAINT should be added
-  post_id      BIGINT
+  post_id       BIGINT,
+  creation_date TIMESTAMP    NOT NULL,
+  update_date   TIMESTAMP
 );
 
 CREATE SEQUENCE hibernate_sequence

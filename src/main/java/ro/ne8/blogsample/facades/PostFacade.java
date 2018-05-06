@@ -15,4 +15,6 @@ public interface PostFacade {
     void delete(PostDTO postDTO);
 
     List<PostDTO> findByUsername(String username);
+
+    void update(PostDTO postDTO);
 }

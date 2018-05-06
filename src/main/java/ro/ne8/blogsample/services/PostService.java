@@ -16,4 +16,7 @@ public interface PostService {
 
     List<PostEntity> findByUsername(String username);
 
+    PostEntity findById(Long id);
+
+    void update(PostEntity postEntity);
 }

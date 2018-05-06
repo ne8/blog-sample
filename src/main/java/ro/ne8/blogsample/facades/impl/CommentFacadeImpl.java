@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.ne8.blogsample.dto.CommentDTO;
 import ro.ne8.blogsample.entities.CommentEntity;
+import ro.ne8.blogsample.entities.PostEntity;
 import ro.ne8.blogsample.facades.CommentFacade;
 import ro.ne8.blogsample.services.CommentService;
+import ro.ne8.blogsample.services.PostService;
 
 import java.util.List;
 
@@ -23,10 +25,16 @@ public class CommentFacadeImpl implements CommentFacade {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PostService postService;
+
     @Override
     public void save(final CommentDTO commentDTO) {
         LOGGER.debug("Saving comment entity");
-        this.commentService.save(this.modelMapper.map(commentDTO, CommentEntity.class));
+        final CommentEntity commentEntity = this.modelMapper.map(commentDTO, CommentEntity.class);
+        final PostEntity postEntity = this.postService.findById(commentDTO.getPostId());
+        commentEntity.setPostEntity(postEntity);
+        this.commentService.save(commentEntity);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ro.ne8.blogsample.entities;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "comments", schema = "blog")
@@ -17,13 +18,19 @@ public class CommentEntity {
     @Column(name = "text_content", nullable = false)
     private String textContent;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "post_id")
     private PostEntity postEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+
+    @Column(name = "creation_date")
+    private Date creationTime;
+
+    @Column(name = "update_date")
+    private Date updateTime;
 
     public Long getId() {
         return this.id;
@@ -63,5 +70,21 @@ public class CommentEntity {
 
     public void setTextContent(final String textContent) {
         this.textContent = textContent;
+    }
+
+    public Date getCreationTime() {
+        return this.creationTime;
+    }
+
+    public void setCreationTime(final Date creationTime) {
+        this.creationTime = creationTime;
+    }
+
+    public Date getUpdateTime() {
+        return this.updateTime;
+    }
+
+    public void setUpdateTime(final Date updateTime) {
+        this.updateTime = updateTime;
     }
 }
