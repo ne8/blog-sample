@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+//@Transactional
 public class PostFacadeImpl implements PostFacade {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostFacadeImpl.class);
