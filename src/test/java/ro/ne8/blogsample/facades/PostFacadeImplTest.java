@@ -1,9 +1,11 @@
 package ro.ne8.blogsample.facades;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -33,6 +35,10 @@ public class PostFacadeImplTest extends ParentTest {
     @MockBean
     private PrincipalSupplier principalSupplier;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
+
     @Before
     public void setUp() {
         Mockito.when(this.principalSupplier.getSpringContextUserDetails())
@@ -42,21 +48,81 @@ public class PostFacadeImplTest extends ParentTest {
     @Test
     public void succeedOnSavingPostToDatabase() {
         //Given
-        final PostDTO postDTO = new PostDTO();
-        postDTO.setSlug(TEST_SLUG);
-        postDTO.setTextContent(TEST_TEXT_CONTENT);
-        postDTO.setTitle(TEST_TITLE);
+        final PostDTO postDTO = this.createPostDto();
+
+        //When
         this.postFacade.save(postDTO);
+
+        //Then
+        final List<PostDTO> postDTOList = this.postFacade.findAll();
+        assertTrue(postDTOList.get(0).getSlug().equals(TEST_SLUG));
+        assertTrue(postDTOList.get(0).getTitle().equals(TEST_TITLE));
+        assertTrue(postDTOList.get(0).getTextContent().equals(TEST_TEXT_CONTENT));
+    }
+
+    @Test
+    public void succeedOnFindingAll() {
+        //Given
+        this.postFacade.save(this.createPostDto());
 
         //When
         final List<PostDTO> postDTOList = this.postFacade.findAll();
 
         //Then
+        assertTrue(postDTOList.size() == 1);
         assertTrue(postDTOList.get(0).getSlug().equals(TEST_SLUG));
         assertTrue(postDTOList.get(0).getTitle().equals(TEST_TITLE));
         assertTrue(postDTOList.get(0).getTextContent().equals(TEST_TEXT_CONTENT));
+        assertTrue(postDTOList.get(0).getCreationDate() != null);
+        assertTrue(postDTOList.get(0).getId() != null);
+    }
+
+    @Test
+    public void succeedOnDelete() {
+        //Given
+        this.postFacade.save(this.createPostDto());
+        final PostDTO toBeDeleted = this.postFacade.findAll().get(0);
+
+        //When
+        this.postFacade.delete(toBeDeleted);
+
+        //Then
+        final List<PostDTO> postDTOList = this.postFacade.findAll();
+        assertTrue(postDTOList.size() == 0);
+    }
+
+
+    @Test
+    public void succeedOnFindingBySlug() {
+        //Given
+        this.postFacade.save(this.createPostDto());
+
+        //When
+        final PostDTO postDTO = this.postFacade.findBySlug(TEST_SLUG);
+
+        //Then
+        assertTrue(postDTO.getSlug().equals(TEST_SLUG));
+        assertTrue(postDTO.getTitle().equals(TEST_TITLE));
+        assertTrue(postDTO.getTextContent().equals(TEST_TEXT_CONTENT));
+        assertTrue(postDTO.getId() != null);
+        assertTrue(postDTO.getCreationDate() != null);
 
     }
 
 
+    @After
+    public void cleanDatabase() {
+        final List<PostDTO> postDTOList = this.postFacade.findAll();
+        postDTOList.forEach(postDTO -> {
+            this.postFacade.delete(postDTO);
+        });
+    }
+
+    private PostDTO createPostDto() {
+        final PostDTO postDTO = new PostDTO();
+        postDTO.setSlug(TEST_SLUG);
+        postDTO.setTextContent(TEST_TEXT_CONTENT);
+        postDTO.setTitle(TEST_TITLE);
+        return postDTO;
+    }
 }

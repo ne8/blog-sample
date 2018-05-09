@@ -10,7 +10,7 @@ public interface PostFacade {
 
     List<PostDTO> findAll();
 
-    PostDTO getBySlug(String slug);
+    PostDTO findBySlug(String slug);
 
     void delete(PostDTO postDTO);
 

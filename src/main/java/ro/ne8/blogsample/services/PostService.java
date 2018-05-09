@@ -10,7 +10,7 @@ public interface PostService {
 
     List<PostEntity> findAll();
 
-    PostEntity getBySlug(String slug);
+    PostEntity findBySlug(String slug);
 
     void delete(PostEntity postEntity);
 

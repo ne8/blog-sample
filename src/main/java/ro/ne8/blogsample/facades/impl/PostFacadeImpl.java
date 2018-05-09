@@ -42,18 +42,21 @@ public class PostFacadeImpl implements PostFacade {
     }
 
     @Override
-    public PostDTO getBySlug(final String slug) {
-        return null;
+    public PostDTO findBySlug(final String slug) {
+        return this.modelMapper.map(this.postService.findBySlug(slug), PostDTO.class);
     }
 
     @Override
     public void delete(final PostDTO postDTO) {
-
+        this.postService.delete(this.modelMapper.map(postDTO, PostEntity.class));
     }
 
     @Override
     public List<PostDTO> findByUsername(final String username) {
-        return null;
+        final List<PostEntity> postEntityList = this.postService.findByUsername(username);
+        final List<PostDTO> postDTOList = new ArrayList<>();
+        postEntityList.forEach(postEntity -> postDTOList.add(this.modelMapper.map(postEntity, PostDTO.class)));
+        return postDTOList;
     }
 
     @Override

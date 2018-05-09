@@ -6,4 +6,6 @@ import ro.ne8.blogsample.entities.PostEntity;
 
 @Repository
 public interface PostRepository extends CrudRepository<PostEntity, Long> {
+
+    PostEntity findBySlugOrderByCreationTime(String slug);
 }

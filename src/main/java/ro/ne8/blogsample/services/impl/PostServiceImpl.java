@@ -46,13 +46,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostEntity getBySlug(final String slug) {
-        return null;
+    public PostEntity findBySlug(final String slug) {
+        return this.postRepository.findBySlugOrderByCreationTime(slug);
     }
 
     @Override
     public void delete(final PostEntity postEntity) {
-
+        this.postRepository.delete(postEntity.getId());
     }
 
     @Override
