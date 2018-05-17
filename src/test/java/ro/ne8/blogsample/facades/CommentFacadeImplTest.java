@@ -2,6 +2,7 @@ package ro.ne8.blogsample.facades;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,11 @@ public class CommentFacadeImplTest extends ParentTest {
     public void setUp() {
         Mockito.when(this.principalSupplier.getSpringContextUserDetails())
                 .thenReturn(new User(TEST_USERNAME, TEST_PASSWORD, this.getGrantedAuthorities()));
+    }
+
+    @Test
+    public void test() {
+        System.out.println("dummy test");
     }
 
 
