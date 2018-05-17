@@ -17,4 +17,6 @@ public interface PostFacade {
     List<PostDTO> findByUsername(String username);
 
     void update(PostDTO postDTO);
+
+    void deleteAllBySlug(String slug);
 }

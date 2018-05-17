@@ -19,4 +19,6 @@ public interface PostService {
     PostEntity findById(Long id);
 
     void update(PostEntity postEntity);
+
+    void deleteAllBySlug(String slug);
 }

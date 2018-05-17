@@ -47,7 +47,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostEntity findBySlug(final String slug) {
-        return this.postRepository.findBySlugOrderByCreationTime(slug);
+        return this.postRepository.findBySlugOrderByCreationTimeAsc(slug);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<PostEntity> findByUsername(final String username) {
-        return null;
+        return this.postRepository.findByUserEntity_UsernameOrderByCreationTimeDesc(username);
     }
 
     @Override
@@ -73,5 +73,10 @@ public class PostServiceImpl implements PostService {
         postEntityToBeUpdated.setSlug(postEntity.getSlug());
         postEntityToBeUpdated.setUpdateTime(new Date());
         this.postRepository.save(postEntityToBeUpdated);
+    }
+
+    @Override
+    public void deleteAllBySlug(final String slug) {
+        this.postRepository.deleteAllBySlug(slug);
     }
 }

@@ -64,4 +64,9 @@ public class PostFacadeImpl implements PostFacade {
         LOGGER.debug("Updating post: " + postDTO.getId());
         this.postService.update(this.modelMapper.map(postDTO, PostEntity.class));
     }
+
+    @Override
+    public void deleteAllBySlug(final String slug) {
+        this.postService.deleteAllBySlug(slug);
+    }
 }
