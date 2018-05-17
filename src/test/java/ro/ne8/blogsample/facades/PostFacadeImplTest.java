@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -26,20 +25,17 @@ import static org.junit.Assert.assertTrue;
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
 public class PostFacadeImplTest extends ParentTest {
 
-    public static final String FAIL_TEST_USERNAME = "fail-test-username";
+    private static final String FAIL_TEST_USERNAME = "fail-test-username";
     private static final String TEST_SLUG_FAIL = "test-slug-fail";
     private static final String TEST_SLUG = "test-slug";
     private static final String TEST_TEXT_CONTENT = "test-text-content";
     private static final String TEST_TITLE = "test-title";
+
     @Autowired
     private PostFacade postFacade;
 
     @MockBean
     private PrincipalSupplier principalSupplier;
-
-    @Autowired
-    private ModelMapper modelMapper;
-
 
     @Before
     public void setUp() {
