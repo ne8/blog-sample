@@ -109,9 +109,7 @@ public class CommentFacadeImplTest extends ParentTest {
         //Then
         assertTrue(updatedCommentDTO.getTitle().equals(TEST_UPDATED_TITLE));
         assertTrue(updatedCommentDTO.getTextContent().equals(TEXT_UPDATED_CONTENT));
-        assertTrue(commentDTO.getUpdateTime() != null);
-
-
+        assertTrue(updatedCommentDTO.getUpdateTime() != null);
     }
 
     private CommentDTO createCommentDTO() {
