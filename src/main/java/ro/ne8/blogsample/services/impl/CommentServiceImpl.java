@@ -48,6 +48,7 @@ public class CommentServiceImpl implements CommentService {
     public void update(final CommentEntity commentEntity) {
         final CommentEntity commentEntityToBeUpdated = this.commentRepository.findOne(commentEntity.getId());
         commentEntityToBeUpdated.setTextContent(commentEntity.getTextContent());
+        commentEntityToBeUpdated.setTitle(commentEntity.getTitle());
         commentEntityToBeUpdated.setUpdateTime(new Date());
         this.commentRepository.save(commentEntityToBeUpdated);
     }
