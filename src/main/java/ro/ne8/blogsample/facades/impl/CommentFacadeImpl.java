@@ -12,9 +12,12 @@ import ro.ne8.blogsample.facades.CommentFacade;
 import ro.ne8.blogsample.services.CommentService;
 import ro.ne8.blogsample.services.PostService;
 
+import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class CommentFacadeImpl implements CommentFacade {
     private static final Logger LOGGER = LoggerFactory.getLogger(CommentFacadeImpl.class);
 
@@ -38,13 +41,18 @@ public class CommentFacadeImpl implements CommentFacade {
     }
 
     @Override
-    public List<CommentDTO> findAllForPost(final Long postId) {
-        return null;
+    public List<CommentDTO> findAll() {
+        final List<CommentEntity> commentEntities = this.commentService.findAll();
+        final List<CommentDTO> commentDTOList = new ArrayList<>();
+        commentEntities.forEach(commentEntity ->
+                commentDTOList.add(this.modelMapper.map(commentEntity, CommentDTO.class)));
+        return commentDTOList;
+
     }
 
     @Override
-    public void delete(final Long id) {
-        this.commentService.deleteById(id);
+    public void delete(final CommentDTO commentDTO) {
+        this.commentService.delete(this.modelMapper.map(commentDTO, CommentEntity.class));
     }
 
     @Override

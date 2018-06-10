@@ -37,6 +37,14 @@ public class PostFacadeImplTest extends ParentTest {
     @MockBean
     private PrincipalSupplier principalSupplier;
 
+    static PostDTO createPostDto() {
+        final PostDTO postDTO = new PostDTO();
+        postDTO.setSlug(TEST_SLUG);
+        postDTO.setTextContent(TEST_TEXT_CONTENT);
+        postDTO.setTitle(TEST_TITLE);
+        return postDTO;
+    }
+
     @Before
     public void setUp() {
         Mockito.when(this.principalSupplier.getSpringContextUserDetails())
@@ -151,7 +159,6 @@ public class PostFacadeImplTest extends ParentTest {
         }
     }
 
-
     @Test
     public void failOnDeleteAllBySlug() {
         //Given
@@ -193,20 +200,11 @@ public class PostFacadeImplTest extends ParentTest {
         assertTrue(postDTOList.size() == 0);
     }
 
-
     @After
     public void cleanDatabase() {
         final List<PostDTO> postDTOList = this.postFacade.findAll();
-        postDTOList.forEach(postDTO -> {
-            this.postFacade.delete(postDTO);
-        });
-    }
-
-    private PostDTO createPostDto() {
-        final PostDTO postDTO = new PostDTO();
-        postDTO.setSlug(TEST_SLUG);
-        postDTO.setTextContent(TEST_TEXT_CONTENT);
-        postDTO.setTitle(TEST_TITLE);
-        return postDTO;
+        postDTOList.forEach(postDTO ->
+                this.postFacade.delete(postDTO)
+        );
     }
 }

@@ -11,6 +11,7 @@ import ro.ne8.blogsample.services.PrincipalSupplier;
 import ro.ne8.blogsample.services.UserService;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,14 +38,10 @@ public class CommentServiceImpl implements CommentService {
         this.commentRepository.save(commentEntity);
     }
 
-    @Override
-    public List<CommentEntity> findAllForPost(final Long postId) {
-        return null;
-    }
 
     @Override
-    public void deleteById(final Long id) {
-        this.commentRepository.deleteById(id);
+    public void delete(final CommentEntity commentEntity) {
+        this.commentRepository.deleteById(commentEntity.getId());
     }
 
     @Override
@@ -53,5 +50,13 @@ public class CommentServiceImpl implements CommentService {
         commentEntityToBeUpdated.setTextContent(commentEntity.getTextContent());
         commentEntityToBeUpdated.setUpdateTime(new Date());
         this.commentRepository.save(commentEntityToBeUpdated);
+    }
+
+    @Override
+    public List<CommentEntity> findAll() {
+        final List<CommentEntity> commentEntities = new ArrayList<>();
+        final Iterable<CommentEntity> postEntityIterable = this.commentRepository.findAll();
+        postEntityIterable.forEach(commentEntities::add);
+        return commentEntities;
     }
 }

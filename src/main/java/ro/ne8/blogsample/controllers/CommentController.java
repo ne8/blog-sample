@@ -55,7 +55,7 @@ public class CommentController {
     @RequestMapping(value = BY_ID, method = RequestMethod.DELETE)
     public ResponseEntity<Void> delete(@NotNull @PathVariable("id") final Long id) {
         LOGGER.debug("Removing comment with id: " + id);
-        this.commentFacade.delete(id);
+//        this.commentFacade.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

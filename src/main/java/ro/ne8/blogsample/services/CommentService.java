@@ -8,9 +8,10 @@ public interface CommentService {
 
     void save(CommentEntity commentEntity);
 
-    List<CommentEntity> findAllForPost(Long postId);
 
-    void deleteById(Long id);
+    void delete(CommentEntity commentEntity);
 
     void update(CommentEntity commentEntity);
+
+    List<CommentEntity> findAll();
 }

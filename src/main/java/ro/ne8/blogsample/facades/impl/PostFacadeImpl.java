@@ -10,11 +10,12 @@ import ro.ne8.blogsample.entities.PostEntity;
 import ro.ne8.blogsample.facades.PostFacade;
 import ro.ne8.blogsample.services.PostService;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-//@Transactional
+@Transactional
 public class PostFacadeImpl implements PostFacade {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PostFacadeImpl.class);
